@@ -304,6 +304,64 @@ function FeaturedBoxes() {
   );
 }
 
+function ImageSectionCard({ src, alt }: { src: string; alt: string }) {
+  return (
+    <motion.article
+      whileHover={{ y: -4 }}
+      className="relative overflow-hidden rounded-[28px] border border-kindred/10 bg-white shadow-card transition-shadow duration-300 hover:shadow-xl"
+    >
+      <Image
+        src={src}
+        alt={alt}
+        width={1600}
+        height={1000}
+        className="h-auto w-full object-contain md:h-full md:object-cover"
+        sizes="(min-width: 1024px) 50vw, 100vw"
+      />
+    </motion.article>
+  );
+}
+
+function PremiumSectionImageCards() {
+  const actionCards = [
+    {
+      src: "/images/kindbite/sections/01_build_your_own_box.webp",
+      alt: "Build your own Kindbite wellness box",
+    },
+    {
+      src: "/images/kindbite/sections/02_ai_recommends_for_you.webp",
+      alt: "Kindbite AI recommends a wellness box",
+    },
+  ];
+
+  const spotlightCards = [
+    {
+      src: "/images/kindbite/sections/03_kids_nutrition_box.webp",
+      alt: "Kindbite kids nutrition box",
+    },
+    {
+      src: "/images/kindbite/sections/04_pregnancy_nutrition_box.webp",
+      alt: "Kindbite pregnancy nutrition box",
+    },
+  ];
+
+  return (
+    <motion.section {...reveal} className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+      <div className="grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {actionCards.map((card) => (
+          <ImageSectionCard key={card.src} src={card.src} alt={card.alt} />
+        ))}
+      </div>
+
+      <div className="mt-6 grid grid-cols-1 gap-6 lg:grid-cols-2">
+        {spotlightCards.map((card) => (
+          <ImageSectionCard key={card.src} src={card.src} alt={card.alt} />
+        ))}
+      </div>
+    </motion.section>
+  );
+}
+
 function SpotlightCards() {
   return (
     <motion.section {...reveal} className="mx-auto grid max-w-7xl gap-6 px-4 py-6 sm:px-6 lg:grid-cols-2 lg:px-8">
@@ -498,9 +556,8 @@ export function HomePage() {
       <HeroSection />
       <CategoryStrip />
       <FeaturedBoxes />
-      <SpotlightCards />
+      <PremiumSectionImageCards />
       <PopularProducts />
-      <ActionCards />
       <TrustBadgeStrip />
       <FeaturedInLogos />
       <Footer />

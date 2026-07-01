@@ -11,3 +11,7 @@ dist/
 *.zip
 kindbite_placeholder_webp_assets/
 public/kindbite-assets/
+public/kindbite_proper_section_images_webp/
+public/kindbite_section_images_webp/
+
+.vercel
