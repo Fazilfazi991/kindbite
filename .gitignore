@@ -1,0 +1,13 @@
+node_modules/
+.next/
+out/
+dist/
+
+*.tsbuildinfo
+*.log
+.env*
+!.env.example
+
+*.zip
+kindbite_placeholder_webp_assets/
+public/kindbite-assets/
