@@ -7,6 +7,7 @@ import {
   CalendarDays,
   Check,
   ClipboardList,
+  FileText,
   Leaf,
   MessageCircle,
   Phone,
@@ -640,6 +641,10 @@ export default function NutritionistBookingPage() {
                 What you can discuss
               </div>
               <p className="mt-3">Review your mix, ask about ingredients and portions, or choose a plan with more confidence.</p>
+              <a className="mt-4 inline-flex h-10 items-center gap-2 rounded-md border border-kindred/20 bg-white px-4 text-xs font-black text-kindred" href="/report-upload">
+                <FileText className="h-4 w-4" />
+                Want us to review a report first?
+              </a>
             </div>
 
             <p className="rounded-md bg-white p-4 text-xs font-semibold leading-5 text-muted shadow-card ring-1 ring-kindred/8">

@@ -6,6 +6,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
+  FileText,
   Leaf,
   MessageCircle,
   PackageCheck,
@@ -318,6 +319,13 @@ export function RecommendationPlaceholder() {
                   >
                     <MessageCircle className="h-4 w-4" />
                     Talk to a Nutritionist
+                  </a>
+                  <a
+                    className="inline-flex h-12 items-center justify-center gap-2 rounded-md border border-kindred/20 bg-white px-5 text-sm font-black text-kindred"
+                    href="/report-upload"
+                  >
+                    <FileText className="h-4 w-4" />
+                    Upload Wellness Report
                   </a>
                   <a
                     className="inline-flex h-12 items-center justify-center gap-2 rounded-md border border-kindred/20 bg-white px-5 text-sm font-black text-kindred"
