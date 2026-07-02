@@ -80,7 +80,14 @@ function UtilityBar() {
 }
 
 function Header() {
-  const nav = ["Shop Boxes", "Shop by Goal", "Build Your Box", "Subscriptions", "Corporate Gifting", "About Us"];
+  const nav = [
+    ["Shop Boxes", "/boxes"],
+    ["Shop Products", "/products"],
+    ["Build Your Box", "/wellness-quiz"],
+    ["Subscriptions", "#"],
+    ["Corporate Gifting", "/products/gcc-to-india-care-box"],
+    ["About Us", "#"],
+  ];
   return (
     <header className="sticky top-0 z-50 bg-kindred shadow-lg shadow-kindred-deep/10">
       <UtilityBar />
@@ -118,8 +125,8 @@ function Header() {
           <input className="h-11 w-full rounded-md border-0 bg-white pl-11 pr-4 text-sm outline-none" placeholder="Search wellness boxes..." />
         </div>
         <nav className="mt-4 hidden items-center gap-7 text-sm font-bold text-white/95 lg:flex">
-          {nav.map((item, index) => (
-            <a key={item} className="flex items-center gap-1 transition hover:text-white" href="#">
+          {nav.map(([item, href], index) => (
+            <a key={item} className="flex items-center gap-1 transition hover:text-white" href={href}>
               {item}
               {index < 2 && <ChevronDown className="h-4 w-4" />}
             </a>
