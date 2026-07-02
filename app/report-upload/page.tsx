@@ -430,7 +430,7 @@ export default function ReportUploadPage() {
               <Sparkles className="h-4 w-4" />
               Beta feature
             </span>
-            <h1 className="mt-5 font-display text-4xl font-black leading-tight sm:text-5xl">
+            <h1 className="mt-5 font-display text-3xl font-black leading-tight sm:text-5xl">
               Upload Your Wellness Report
             </h1>
             <p className="mt-4 max-w-2xl text-sm font-semibold leading-6 text-white/82 sm:text-base">

@@ -38,7 +38,7 @@ import {
 } from "@/lib/home-data";
 
 const reveal = {
-  initial: { opacity: 0, y: 22 },
+  initial: { opacity: 1, y: 0 },
   whileInView: { opacity: 1, y: 0 },
   viewport: { once: true, margin: "-80px" },
   transition: { duration: 0.55, ease: "easeOut" },
@@ -150,7 +150,7 @@ function HeroSection() {
   return (
     <section className="bg-cream">
       <div className="relative mx-auto max-w-[1600px] overflow-hidden">
-        <div className="relative aspect-[16/7] min-h-[360px] sm:aspect-[16/6] lg:min-h-[520px]">
+        <div className="relative aspect-[16/9] min-h-0 sm:aspect-[16/6] sm:min-h-[360px] lg:min-h-[520px]">
           {slides.map((slide, index) => (
             <motion.a
               key={slide.src}
@@ -168,7 +168,7 @@ function HeroSection() {
                 fill
                 priority={index === 0}
                 sizes="100vw"
-                className="object-cover object-center"
+                className="object-contain object-center sm:object-cover"
               />
             </motion.a>
           ))}
@@ -308,14 +308,14 @@ function ImageSectionCard({ src, alt }: { src: string; alt: string }) {
   return (
     <motion.article
       whileHover={{ y: -4 }}
-      className="relative overflow-hidden rounded-[28px] border border-kindred/10 bg-white shadow-card transition-shadow duration-300 hover:shadow-xl"
+      className="relative min-w-0 overflow-hidden rounded-md border border-kindred/10 bg-white shadow-card transition-shadow duration-300 hover:shadow-xl sm:rounded-[28px]"
     >
       <Image
         src={src}
         alt={alt}
         width={1600}
         height={1000}
-        className="h-auto w-full object-contain md:h-full md:object-cover"
+        className="block h-auto w-full max-w-full object-contain md:h-full md:object-cover"
         sizes="(min-width: 1024px) 50vw, 100vw"
       />
     </motion.article>

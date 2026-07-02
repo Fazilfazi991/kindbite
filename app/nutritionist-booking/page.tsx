@@ -414,7 +414,7 @@ export default function NutritionistBookingPage() {
               <ShieldCheck className="h-4 w-4" />
               Nutrition guidance, not medical advice
             </span>
-            <h1 className="mt-5 font-display text-4xl font-black leading-tight sm:text-5xl">
+            <h1 className="mt-5 font-display text-3xl font-black leading-tight sm:text-5xl">
               Talk to a Nutritionist
             </h1>
             <p className="mt-4 max-w-2xl text-sm font-semibold leading-6 text-white/82 sm:text-base">
@@ -436,7 +436,7 @@ export default function NutritionistBookingPage() {
                 <h2 className="text-2xl font-black text-ink">
                   {attachedMix.type === "custom_box" ? "Your Custom Kindbite Box" : "Your Recommended Wellness Mix"}
                 </h2>
-                <div className="mt-4 grid grid-cols-2 gap-3">
+                <div className="mt-4 grid gap-3 sm:grid-cols-2">
                   {[
                     ["Duration", formatDuration(attachedMix.summary.duration)],
                     ["Daily grams", attachedMix.summary.dailyGrams ? `${attachedMix.summary.dailyGrams}g/day` : "Saved mix"],

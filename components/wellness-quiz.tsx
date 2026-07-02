@@ -172,7 +172,7 @@ export function WellnessQuiz() {
         <section className="grid gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
           <aside className="rounded-md bg-kindred p-6 text-white shadow-soft">
             <p className="text-xs font-black uppercase tracking-wide text-white/75">Wellness quiz</p>
-            <h2 className="mt-3 font-display text-4xl font-black leading-tight">Find your daily Kindbite mix.</h2>
+            <h2 className="mt-3 font-display text-3xl font-black leading-tight sm:text-4xl">Find your daily Kindbite mix.</h2>
             <p className="mt-4 text-sm font-semibold leading-6 text-white/80">
               Answer a few food and lifestyle questions so Kindbite can suggest a simple daily mix of nuts,
               seeds, and natural foods.

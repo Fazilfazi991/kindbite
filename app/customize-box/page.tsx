@@ -319,7 +319,7 @@ export default function CustomizeBoxPage() {
                   <ShieldCheck className="h-4 w-4" />
                   Personalized daily intake
                 </span>
-                <h1 className="mt-5 font-display text-4xl font-black leading-tight sm:text-5xl">
+                <h1 className="mt-5 font-display text-3xl font-black leading-tight sm:text-5xl">
                   Customize Your Wellness Box
                 </h1>
                 <p className="mt-4 max-w-2xl text-sm font-semibold leading-6 text-white/82 sm:text-base">
@@ -333,7 +333,7 @@ export default function CustomizeBoxPage() {
               <div className="rounded-md bg-white p-5 shadow-card ring-1 ring-kindred/8 sm:p-6">
                 <p className="text-xs font-black uppercase tracking-wide text-kindred">Base mix summary</p>
                 <h2 className="mt-2 text-2xl font-black text-ink">{recommendation.title}</h2>
-                <div className="mt-5 grid grid-cols-2 gap-3">
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
                   {[
                     ["Goal", goal],
                     ["Duration", `${duration} days`],
@@ -394,7 +394,7 @@ export default function CustomizeBoxPage() {
                                 <h3 className="font-black text-ink">{item.name}</h3>
                                 <p className="mt-2 text-sm font-semibold leading-6 text-muted">{item.reason}</p>
                               </div>
-                              <div className="grid grid-cols-3 gap-2 text-center sm:w-72">
+                              <div className="grid gap-2 text-center sm:w-72 sm:grid-cols-3">
                                 <div className="rounded-md bg-kindred-soft p-3">
                                   <p className="text-[10px] font-black uppercase tracking-wide text-kindred">Per day</p>
                                   <strong className="text-lg text-ink">{item.gramsPerDay}g</strong>

@@ -139,7 +139,7 @@ export function RecommendationPlaceholder() {
                   <ShieldCheck className="h-4 w-4" />
                   Food-based wellness suggestion
                 </span>
-                <h1 className="mt-5 font-display text-4xl font-black leading-tight sm:text-5xl">
+                <h1 className="mt-5 font-display text-3xl font-black leading-tight sm:text-5xl">
                   Your Personalized Wellness Mix
                 </h1>
                 <p className="mt-4 max-w-2xl text-sm font-semibold leading-6 text-white/82 sm:text-base">
@@ -151,7 +151,7 @@ export function RecommendationPlaceholder() {
                 <p className="text-xs font-black uppercase tracking-wide text-kindred">Recommended mix</p>
                 <h2 className="mt-2 text-2xl font-black text-ink">{recommendation.title}</h2>
                 <p className="mt-2 text-sm font-semibold leading-6 text-muted">{recommendation.description}</p>
-                <div className="mt-5 grid grid-cols-2 gap-3">
+                <div className="mt-5 grid gap-3 sm:grid-cols-2">
                   {[
                     ["Daily intake", `${recommendation.dailyTotalGrams}g/day`],
                     ["Goal", goal],
@@ -189,7 +189,7 @@ export function RecommendationPlaceholder() {
                           <h3 className="font-black text-ink">{item.name}</h3>
                           <p className="mt-2 text-sm font-semibold leading-6 text-muted">{item.reason}</p>
                         </div>
-                        <div className="grid grid-cols-2 gap-2 sm:w-52">
+                        <div className="grid gap-2 sm:w-52 sm:grid-cols-2">
                           <div className="rounded-md bg-kindred-soft p-3">
                             <p className="text-[10px] font-black uppercase tracking-wide text-kindred">Per day</p>
                             <strong className="block text-lg text-ink">{item.gramsPerDay}g</strong>
