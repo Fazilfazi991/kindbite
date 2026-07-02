@@ -5,10 +5,12 @@ import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import {
   ArrowRight,
+  ClipboardList,
   ChevronLeft,
   ChevronDown,
   ChevronRight,
   Facebook,
+  FileText,
   Gift,
   Heart,
   Instagram,
@@ -235,6 +237,56 @@ function CategoryStrip() {
             <span className="mt-2 block text-xs font-black text-ink">{label}</span>
           </motion.a>
         ))}
+      </div>
+    </motion.section>
+  );
+}
+
+function JourneyStartSection() {
+  const cards = [
+    {
+      title: "Find My Mix",
+      text: "Take the quick quiz and get a food-based daily mix suggestion.",
+      href: "/wellness-quiz",
+      icon: ClipboardList,
+    },
+    {
+      title: "Upload Report",
+      text: "Share a wellness report for the beta review path.",
+      href: "/report-upload",
+      icon: FileText,
+    },
+    {
+      title: "Talk to Nutritionist",
+      text: "Book a review for extra guidance before ordering.",
+      href: "/nutritionist-booking",
+      icon: Send,
+    },
+  ];
+
+  return (
+    <motion.section {...reveal} className="bg-white">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        <SectionTitle title="Start Your" red="Wellness Journey" />
+        <div className="grid gap-4 md:grid-cols-3">
+          {cards.map(({ title, text, href, icon: Icon }) => (
+            <a
+              key={title}
+              href={href}
+              className="group rounded-md border border-kindred/10 bg-cream p-5 shadow-card transition hover:-translate-y-1 hover:border-kindred/35"
+            >
+              <span className="grid h-11 w-11 place-items-center rounded-md bg-kindred text-white">
+                <Icon className="h-5 w-5" />
+              </span>
+              <h3 className="mt-4 text-xl font-black text-ink">{title}</h3>
+              <p className="mt-2 min-h-12 text-sm font-semibold leading-6 text-muted">{text}</p>
+              <span className="mt-4 inline-flex items-center gap-2 text-sm font-black text-kindred">
+                Start
+                <ArrowRight className="h-4 w-4 transition group-hover:translate-x-1" />
+              </span>
+            </a>
+          ))}
+        </div>
       </div>
     </motion.section>
   );
@@ -554,6 +606,7 @@ export function HomePage() {
     <main>
       <Header />
       <HeroSection />
+      <JourneyStartSection />
       <CategoryStrip />
       <FeaturedBoxes />
       <PremiumSectionImageCards />

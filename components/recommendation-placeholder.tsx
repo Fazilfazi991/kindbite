@@ -6,6 +6,7 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
+  Clipboard,
   FileText,
   Leaf,
   MessageCircle,
@@ -15,6 +16,10 @@ import {
   ShoppingBag,
   Sparkles,
 } from "lucide-react";
+import { JourneyStepper } from "@/components/journey-stepper";
+import { NextStepCards } from "@/components/next-step-cards";
+import { TrustChips } from "@/components/trust-chips";
+import { WellnessPlanBar } from "@/components/wellness-plan-bar";
 import { calculatePricing, PricingSummary } from "@/lib/pricing";
 import { PlanDuration, QuizAnswers, WellnessRecommendation } from "@/lib/wellness-recommendation";
 
@@ -58,6 +63,7 @@ export function RecommendationPlaceholder() {
   const [quizAnswers, setQuizAnswers] = useState<QuizAnswers | null>(null);
   const [duration, setDuration] = useState(7);
   const [pricing, setPricing] = useState<PricingSummary | null>(null);
+  const [shareMessage, setShareMessage] = useState("");
 
   useEffect(() => {
     const savedRecommendation = window.localStorage.getItem("kindbite_recommendation");
@@ -104,6 +110,29 @@ export function RecommendationPlaceholder() {
 
   const totalQuantity = pricing?.totalQuantityGrams ?? 0;
   const goal = quizAnswers?.goal || "Your wellness goal";
+  const mixSummary = recommendation
+    ? [
+        `Kindbite mix: ${recommendation.title}`,
+        `Goal: ${goal}`,
+        `Plan: ${duration} days`,
+        `Daily intake: ${recommendation.dailyTotalGrams}g/day`,
+        `Items: ${recommendation.items.map((item) => `${item.name} ${item.gramsPerDay}g/day`).join(", ")}`,
+        pricing ? `Estimated total: ${formatCurrency(pricing.finalPrice)}` : "",
+      ]
+        .filter(Boolean)
+        .join("\n")
+    : "";
+
+  const copyMixSummary = async () => {
+    if (!mixSummary) return;
+
+    try {
+      await navigator.clipboard.writeText(mixSummary);
+      setShareMessage("Mix summary copied.");
+    } catch {
+      setShareMessage("Copy failed. You can still share from WhatsApp.");
+    }
+  };
 
   return (
     <main className="min-h-screen bg-gradient-to-br from-cream via-white to-beige px-4 pb-28 pt-5 sm:px-6 lg:px-8">
@@ -116,6 +145,10 @@ export function RecommendationPlaceholder() {
           </a>
         </header>
 
+        <div className="mt-5">
+          <JourneyStepper currentStep="recommendation" />
+        </div>
+
         {!recommendation ? (
           <section className="mt-6 rounded-md bg-white p-6 text-center shadow-card ring-1 ring-kindred/8 sm:p-10">
             <Leaf className="mx-auto h-11 w-11 text-kindred" />
@@ -123,16 +156,29 @@ export function RecommendationPlaceholder() {
             <p className="mx-auto mt-3 max-w-md text-sm font-semibold leading-6 text-muted">
               Complete the quick wellness quiz to get your personalized daily intake suggestion.
             </p>
-            <a
-              className="mt-6 inline-flex h-12 items-center gap-2 rounded-md bg-kindred px-5 text-sm font-black text-white shadow-card"
-              href="/wellness-quiz"
-            >
-              Start Wellness Quiz
-              <ArrowRight className="h-4 w-4" />
-            </a>
+            <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+              <a
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-kindred px-5 text-sm font-black text-white shadow-card"
+                href="/wellness-quiz"
+              >
+                Start Wellness Quiz
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md border border-kindred/20 bg-white px-5 text-sm font-black text-kindred"
+                href="/report-upload"
+              >
+                Upload Report Instead
+                <FileText className="h-4 w-4" />
+              </a>
+            </div>
           </section>
         ) : (
           <>
+            <div className="mt-5">
+              <TrustChips />
+            </div>
+
             <section className="mt-6 grid gap-5 lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch">
               <div className="rounded-md bg-kindred p-6 text-white shadow-soft sm:p-8">
                 <span className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-xs font-black uppercase tracking-wide text-white">
@@ -198,6 +244,25 @@ export function RecommendationPlaceholder() {
                             <p className="text-[10px] font-black uppercase tracking-wide text-muted">For {duration} days</p>
                             <strong className="block text-lg text-ink">{item.gramsPerDay * duration}g</strong>
                           </div>
+                        </div>
+                      </article>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="rounded-md bg-white p-5 shadow-card ring-1 ring-kindred/8 sm:p-6">
+                  <p className="text-xs font-black uppercase tracking-wide text-kindred">Why this mix?</p>
+                  <div className="mt-4 grid gap-3">
+                    {recommendation.items.map((item) => (
+                      <article key={item.name} className="rounded-md bg-kindred-soft p-4">
+                        <div className="flex flex-wrap items-start justify-between gap-3">
+                          <div className="min-w-0">
+                            <h2 className="font-black text-ink">{item.name}</h2>
+                            <p className="mt-1 text-sm font-semibold leading-6 text-muted">{item.reason}</p>
+                          </div>
+                          <strong className="rounded-full bg-white px-3 py-1 text-sm text-kindred">
+                            {item.gramsPerDay}g/day
+                          </strong>
                         </div>
                       </article>
                     ))}
@@ -298,6 +363,33 @@ export function RecommendationPlaceholder() {
                   </div>
                 </div>
 
+                <div className="rounded-md bg-white p-5 shadow-card ring-1 ring-kindred/8">
+                  <p className="text-xs font-black uppercase tracking-wide text-kindred">Save & share mix</p>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-muted">
+                    Share this food-based mix summary with family or a nutritionist.
+                  </p>
+                  {shareMessage && <p className="mt-3 rounded-md bg-kindred-soft p-3 text-sm font-bold text-kindred">{shareMessage}</p>}
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                    <button
+                      type="button"
+                      onClick={copyMixSummary}
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-kindred/20 bg-white px-4 text-sm font-black text-kindred"
+                    >
+                      <Clipboard className="h-4 w-4" />
+                      Copy Mix Summary
+                    </button>
+                    <a
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#25D366] px-4 text-sm font-black text-white"
+                      href={`https://wa.me/?text=${encodeURIComponent(mixSummary)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      WhatsApp Share
+                    </a>
+                  </div>
+                </div>
+
                 <div className="grid gap-3">
                   <a
                     className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-kindred px-5 text-sm font-black text-white shadow-card"
@@ -338,6 +430,10 @@ export function RecommendationPlaceholder() {
               </aside>
             </section>
 
+            <div className="mt-5">
+              <NextStepCards context="recommendation" />
+            </div>
+
             <div className="fixed inset-x-0 bottom-0 z-50 border-t border-kindred/10 bg-white/95 p-3 shadow-2xl backdrop-blur md:hidden">
               <div className="mx-auto flex max-w-7xl items-center gap-3">
                 <div className="min-w-0 flex-1">
@@ -355,6 +451,8 @@ export function RecommendationPlaceholder() {
                 </a>
               </div>
             </div>
+
+            <WellnessPlanBar mobileBottomClass="bottom-20" />
           </>
         )}
       </div>

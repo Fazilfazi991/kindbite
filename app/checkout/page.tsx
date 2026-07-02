@@ -1,7 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { ArrowLeft, ShoppingBag } from "lucide-react";
+import { ArrowLeft, ArrowRight, FileText, ShoppingBag, Sparkles } from "lucide-react";
+import { JourneyStepper } from "@/components/journey-stepper";
+import { NextStepCards } from "@/components/next-step-cards";
+import { WellnessPlanBar } from "@/components/wellness-plan-bar";
 import { CustomBox } from "@/lib/custom-box";
 import { PricingSummary } from "@/lib/pricing";
 
@@ -50,14 +53,17 @@ export default function CheckoutPage() {
         </a>
 
         <section className="mt-6 rounded-md bg-white p-6 text-center shadow-card ring-1 ring-kindred/8 sm:p-10">
+          <JourneyStepper currentStep="checkout" />
           <ShoppingBag className="mx-auto h-11 w-11 text-kindred" />
           <h1 className="mt-4 text-3xl font-black text-ink">
-            {customBox ? "Your Custom Kindbite Box" : "Checkout Coming Soon"}
+            {customBox ? "Your Custom Kindbite Box" : summary ? "Checkout Coming Soon" : "No mix selected yet"}
           </h1>
           <p className="mx-auto mt-3 max-w-lg text-sm font-semibold leading-6 text-muted">
             {customBox
               ? "Checkout integration will be added next."
-              : "Your Kindbite wellness mix is ready. Checkout integration will be added next."}
+              : summary
+                ? "Your Kindbite wellness mix is ready. Checkout integration will be added next."
+                : "Find your wellness mix first, or upload a report if you want a review path before ordering."}
           </p>
 
           {customBox ? (
@@ -90,7 +96,7 @@ export default function CheckoutPage() {
                 ))}
               </div>
             </>
-          ) : summary && (
+          ) : summary ? (
             <div className="mx-auto mt-6 grid max-w-xl gap-3 text-left sm:grid-cols-3">
               {[
                 ["Final price", formatCurrency(summary.finalPrice)],
@@ -103,17 +109,42 @@ export default function CheckoutPage() {
                 </div>
               ))}
             </div>
+          ) : (
+            <div className="mx-auto mt-6 flex max-w-xl flex-col justify-center gap-3 sm:flex-row">
+              <a
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-kindred px-5 text-sm font-black text-white shadow-card"
+                href="/wellness-quiz"
+              >
+                <Sparkles className="h-4 w-4" />
+                Find My Mix
+              </a>
+              <a
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md border border-kindred/20 bg-white px-5 text-sm font-black text-kindred"
+                href="/report-upload"
+              >
+                <FileText className="h-4 w-4" />
+                Upload Report
+              </a>
+            </div>
           )}
 
-          <a
-            className="mt-7 inline-flex h-12 items-center gap-2 rounded-md bg-kindred px-5 text-sm font-black text-white shadow-card"
-            href={customBox ? "/customize-box" : "/recommendation"}
-          >
-            <ArrowLeft className="h-4 w-4" />
-            {customBox ? "Back to Customize" : "Back to Recommendation"}
-          </a>
+          {(customBox || summary) && (
+            <>
+              <a
+                className="mt-7 inline-flex h-12 items-center gap-2 rounded-md bg-kindred px-5 text-sm font-black text-white shadow-card"
+                href={customBox ? "/customize-box" : "/recommendation"}
+              >
+                <ArrowLeft className="h-4 w-4" />
+                {customBox ? "Back to Customize" : "Back to Recommendation"}
+              </a>
+              <div className="mt-6 text-left">
+                <NextStepCards context="checkout" />
+              </div>
+            </>
+          )}
         </section>
       </div>
+      <WellnessPlanBar />
     </main>
   );
 }

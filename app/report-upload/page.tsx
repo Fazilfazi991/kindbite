@@ -14,6 +14,9 @@ import {
   Upload,
   X,
 } from "lucide-react";
+import { NextStepCards } from "@/components/next-step-cards";
+import { TrustChips } from "@/components/trust-chips";
+import { WellnessPlanBar } from "@/components/wellness-plan-bar";
 import { CustomBox } from "@/lib/custom-box";
 import { AttachedMixSummary, AttachedMixType } from "@/lib/nutritionist-booking";
 import { PricingSummary } from "@/lib/pricing";
@@ -408,7 +411,12 @@ export default function ReportUploadPage() {
               Send Report Details on WhatsApp
             </a>
           </section>
+
+          <div className="mt-5">
+            <NextStepCards context="report" />
+          </div>
         </div>
+        <WellnessPlanBar />
       </main>
     );
   }
@@ -423,6 +431,10 @@ export default function ReportUploadPage() {
             Recommendation
           </a>
         </header>
+
+        <div className="mt-5">
+          <TrustChips />
+        </div>
 
         <section className="mt-6 grid gap-5 lg:grid-cols-[1.08fr_0.92fr]">
           <div className="rounded-md bg-kindred p-6 text-white shadow-soft sm:p-8">
@@ -526,6 +538,21 @@ export default function ReportUploadPage() {
                   </button>
                 </div>
               )}
+            </div>
+
+            <div className="rounded-md bg-white p-5 shadow-card ring-1 ring-kindred/8 sm:p-6">
+              <p className="text-xs font-black uppercase tracking-wide text-kindred">No report? No problem.</p>
+              <h2 className="mt-2 text-2xl font-black text-ink">Find your mix without a report</h2>
+              <p className="mt-2 text-sm font-semibold leading-6 text-muted">
+                You can start with the quiz and come back to upload a report later.
+              </p>
+              <a
+                className="mt-4 inline-flex h-11 items-center gap-2 rounded-md bg-kindred px-4 text-sm font-black text-white"
+                href="/wellness-quiz"
+              >
+                Start Wellness Quiz
+                <ArrowRight className="h-4 w-4" />
+              </a>
             </div>
 
             <div className="rounded-md bg-white p-5 shadow-card ring-1 ring-kindred/8 sm:p-6">
@@ -742,6 +769,7 @@ export default function ReportUploadPage() {
             </button>
           </div>
         </div>
+        <WellnessPlanBar mobileBottomClass="bottom-20" />
       </div>
     </main>
   );

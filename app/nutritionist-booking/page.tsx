@@ -14,6 +14,9 @@ import {
   ShieldCheck,
   Sparkles,
 } from "lucide-react";
+import { NextStepCards } from "@/components/next-step-cards";
+import { TrustChips } from "@/components/trust-chips";
+import { WellnessPlanBar } from "@/components/wellness-plan-bar";
 import { CustomBox } from "@/lib/custom-box";
 import {
   AttachedMixSummary,
@@ -392,7 +395,12 @@ export default function NutritionistBookingPage() {
               Send Details on WhatsApp
             </a>
           </section>
+
+          <div className="mt-5">
+            <NextStepCards context="booking" />
+          </div>
         </div>
+        <WellnessPlanBar />
       </main>
     );
   }
@@ -407,6 +415,10 @@ export default function NutritionistBookingPage() {
             Recommendation
           </a>
         </header>
+
+        <div className="mt-5">
+          <TrustChips />
+        </div>
 
         <section className="mt-6 grid gap-5 lg:grid-cols-[1.08fr_0.92fr]">
           <div className="rounded-md bg-kindred p-6 text-white shadow-soft sm:p-8">
@@ -461,7 +473,7 @@ export default function NutritionistBookingPage() {
               <div className="mt-4 rounded-md bg-beige p-4">
                 <h2 className="font-black text-ink">No wellness mix attached yet</h2>
                 <p className="mt-2 text-sm font-semibold leading-6 text-muted">
-                  Complete the quiz to bring your Kindbite mix into this consultation.
+                  You can still book directly. Complete the quiz anytime to bring a Kindbite mix into this consultation.
                 </p>
                 <a className="mt-4 inline-flex h-11 items-center gap-2 rounded-md bg-kindred px-4 text-sm font-black text-white" href="/wellness-quiz">
                   Take Wellness Quiz
@@ -678,6 +690,7 @@ export default function NutritionistBookingPage() {
             </button>
           </div>
         </div>
+        <WellnessPlanBar mobileBottomClass="bottom-20" />
       </div>
     </main>
   );

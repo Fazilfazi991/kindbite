@@ -7,7 +7,10 @@ import {
   ArrowLeft,
   ArrowRight,
   Check,
+  Clipboard,
+  FileText,
   Leaf,
+  MessageCircle,
   Minus,
   PackageCheck,
   Plus,
@@ -17,6 +20,10 @@ import {
   Sparkles,
   Trash2,
 } from "lucide-react";
+import { JourneyStepper } from "@/components/journey-stepper";
+import { NextStepCards } from "@/components/next-step-cards";
+import { TrustChips } from "@/components/trust-chips";
+import { WellnessPlanBar } from "@/components/wellness-plan-bar";
 import { CustomBox } from "@/lib/custom-box";
 import { calculatePricing, getIngredientPrice } from "@/lib/pricing";
 import {
@@ -117,6 +124,7 @@ export default function CustomizeBoxPage() {
   const [duration, setDuration] = useState(7);
   const [warnings, setWarnings] = useState<string[]>([]);
   const [message, setMessage] = useState("");
+  const [shareMessage, setShareMessage] = useState("");
   const skipNextPricingSaveRef = useRef(false);
 
   useEffect(() => {
@@ -169,6 +177,23 @@ export default function CustomizeBoxPage() {
     quizAnswers?.goal === "Diabetic-friendly" ||
     quizAnswers?.healthConcern === "High sugar";
   const canSave = items.length > 0 && totalDaily >= MIN_DAILY_GRAMS;
+  const mixSummary = [
+    recommendation ? `Kindbite custom box: ${recommendation.title}` : "Kindbite custom box",
+    `Goal: ${goal}`,
+    `Plan: ${duration} days`,
+    `Daily intake: ${totalDaily}g/day`,
+    `Items: ${items.map((item) => `${item.name} ${item.gramsPerDay}g/day`).join(", ")}`,
+    `Estimated total: ${formatCurrency(pricing.finalPrice)}`,
+  ].join("\n");
+
+  const copyMixSummary = async () => {
+    try {
+      await navigator.clipboard.writeText(mixSummary);
+      setShareMessage("Mix summary copied.");
+    } catch {
+      setShareMessage("Copy failed. You can still share from WhatsApp.");
+    }
+  };
 
   useEffect(() => {
     if (!recommendation) return;
@@ -296,23 +321,40 @@ export default function CustomizeBoxPage() {
           </a>
         </header>
 
+        <div className="mt-5">
+          <JourneyStepper currentStep="customize" />
+        </div>
+
         {!recommendation ? (
           <section className="mt-6 rounded-md bg-white p-6 text-center shadow-card ring-1 ring-kindred/8 sm:p-10">
             <Leaf className="mx-auto h-11 w-11 text-kindred" />
-            <h1 className="mt-4 text-2xl font-black text-ink sm:text-3xl">Start with your wellness quiz</h1>
+            <h1 className="mt-4 text-2xl font-black text-ink sm:text-3xl">Build your base mix first</h1>
             <p className="mx-auto mt-3 max-w-md text-sm font-semibold leading-6 text-muted">
-              Complete the quick quiz first so we can suggest your base daily mix.
+              Take the quiz for a starter recommendation, or upload a report if you want extra context first.
             </p>
-            <a
-              className="mt-6 inline-flex h-12 items-center gap-2 rounded-md bg-kindred px-5 text-sm font-black text-white shadow-card"
-              href="/wellness-quiz"
-            >
-              Start Wellness Quiz
-              <ArrowRight className="h-4 w-4" />
-            </a>
+            <div className="mt-6 flex flex-col justify-center gap-3 sm:flex-row">
+              <a
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md bg-kindred px-5 text-sm font-black text-white shadow-card"
+                href="/wellness-quiz"
+              >
+                Start Wellness Quiz
+                <ArrowRight className="h-4 w-4" />
+              </a>
+              <a
+                className="inline-flex h-12 items-center justify-center gap-2 rounded-md border border-kindred/20 bg-white px-5 text-sm font-black text-kindred"
+                href="/report-upload"
+              >
+                Upload Report
+                <FileText className="h-4 w-4" />
+              </a>
+            </div>
           </section>
         ) : (
           <>
+            <div className="mt-5">
+              <TrustChips />
+            </div>
+
             <section className="mt-6 grid gap-5 lg:grid-cols-[1.06fr_0.94fr]">
               <div className="rounded-md bg-kindred p-6 text-white shadow-soft sm:p-8">
                 <span className="inline-flex items-center gap-2 rounded-full bg-white/12 px-3 py-1 text-xs font-black uppercase tracking-wide">
@@ -577,6 +619,33 @@ export default function CustomizeBoxPage() {
                   {recommendation.disclaimer || WELLNESS_DISCLAIMER}
                 </p>
 
+                <div className="rounded-md bg-white p-5 shadow-card ring-1 ring-kindred/8">
+                  <p className="text-xs font-black uppercase tracking-wide text-kindred">Save & share box</p>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-muted">
+                    Share your current custom box summary before checkout.
+                  </p>
+                  {shareMessage && <p className="mt-3 rounded-md bg-kindred-soft p-3 text-sm font-bold text-kindred">{shareMessage}</p>}
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+                    <button
+                      type="button"
+                      onClick={copyMixSummary}
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-md border border-kindred/20 bg-white px-4 text-sm font-black text-kindred"
+                    >
+                      <Clipboard className="h-4 w-4" />
+                      Copy Mix Summary
+                    </button>
+                    <a
+                      className="inline-flex h-11 items-center justify-center gap-2 rounded-md bg-[#25D366] px-4 text-sm font-black text-white"
+                      href={`https://wa.me/?text=${encodeURIComponent(mixSummary)}`}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      <MessageCircle className="h-4 w-4" />
+                      WhatsApp Share
+                    </a>
+                  </div>
+                </div>
+
                 <div className="grid gap-3">
                   <button
                     type="button"
@@ -598,6 +667,10 @@ export default function CustomizeBoxPage() {
               </aside>
             </section>
 
+            <div className="mt-5">
+              <NextStepCards context="customize" />
+            </div>
+
             <div className="fixed inset-x-0 bottom-0 z-50 border-t border-kindred/10 bg-white/95 p-3 shadow-2xl backdrop-blur md:hidden">
               <div className="mx-auto flex max-w-7xl items-center gap-3">
                 <div className="min-w-0 flex-1">
@@ -615,6 +688,8 @@ export default function CustomizeBoxPage() {
                 </button>
               </div>
             </div>
+
+            <WellnessPlanBar mobileBottomClass="bottom-20" />
           </>
         )}
       </div>

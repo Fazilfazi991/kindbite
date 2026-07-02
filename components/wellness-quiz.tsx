@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ArrowLeft, ArrowRight, Check, HeartPulse, Leaf, ShieldCheck } from "lucide-react";
+import { JourneyStepper } from "@/components/journey-stepper";
+import { TrustChips } from "@/components/trust-chips";
 import {
   BudgetRange,
   FoodPreference,
@@ -168,6 +170,8 @@ export function WellnessQuiz() {
             Back to home
           </a>
         </header>
+
+        <JourneyStepper currentStep="quiz" />
 
         <section className="grid gap-5 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
           <aside className="rounded-md bg-kindred p-6 text-white shadow-soft">
@@ -350,7 +354,10 @@ export function WellnessQuiz() {
         </section>
 
         <footer className="rounded-md bg-white/80 p-4 text-xs font-semibold leading-5 text-muted ring-1 ring-kindred/8">
+          <TrustChips />
+          <p className="mt-3">
           {WELLNESS_DISCLAIMER}
+          </p>
         </footer>
       </div>
     </main>
